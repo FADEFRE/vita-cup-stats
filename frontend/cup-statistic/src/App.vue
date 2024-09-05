@@ -5,7 +5,10 @@ import Settings from './components/Settings.vue'
 
 <template>
   <div class="page_body">
-    <Settings />
+    <div class="align">
+      <Settings class="full-width"/>
+      <Settings class="full-width"/>
+    </div>
   </div>
 </template>
 
@@ -18,5 +21,16 @@ import Settings from './components/Settings.vue'
   align-items: flex-start;
   gap: 128px;
   width: 100dvw;
+}
+
+.align {
+  display: flex;
+  align-items: stretch;
+  gap: 32px;
+  align-self: stretch;
+}
+
+.full-width {
+  width: 100%;
 }
 </style>
