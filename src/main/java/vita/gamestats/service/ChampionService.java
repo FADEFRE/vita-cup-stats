@@ -18,4 +18,8 @@ public class ChampionService {
         return championRepository.findAll();
     }
 
+    public Champion getChampionByName(String name) {
+        return championRepository.findByName(name).orElseThrow();
+    }
+
 }

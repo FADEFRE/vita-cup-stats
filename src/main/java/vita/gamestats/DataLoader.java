@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import vita.gamestats.model.Champion;
 import vita.gamestats.model.Team;
 import vita.gamestats.repository.ChampionRepository;
-import vita.gamestats.repository.TeamRepositroy;
+import vita.gamestats.repository.TeamRepository;
 
 @Component
 public class DataLoader implements CommandLineRunner{
@@ -24,7 +24,7 @@ public class DataLoader implements CommandLineRunner{
     private ChampionRepository championRepository;
 
     @Autowired
-    private TeamRepositroy teamRepositroy;
+    private TeamRepository teamRepositroy;
 
     private final ObjectMapper objectMapper;
 

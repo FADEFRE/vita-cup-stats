@@ -9,26 +9,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import vita.gamestats.model.Champion;
-import vita.gamestats.service.ChampionService;
-
+import vita.gamestats.model.Team;
+import vita.gamestats.service.TeamService;
 
 @RestController
-@RequestMapping("/api/champion")
-public class ChampionController {
+@RequestMapping("/api/team")
+public class TeamController {
 
     @Autowired
-    private ChampionService championService;
+    private TeamService teamService;
+    
 
     @GetMapping
-    public ResponseEntity<List<Champion>> getAllChampions() {
-        return ResponseEntity.ok(championService.getAllChampions());
+    public ResponseEntity<List<Team>> getAllTeams() {
+        return ResponseEntity.ok(teamService.getAllTeams());
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<Champion> getChampionByName(@PathVariable String name) {
-        return ResponseEntity.ok(championService.getChampionByName(name));
+    public ResponseEntity<Team> getTeamByName(@PathVariable String name) {
+        return ResponseEntity.ok(teamService.getTeamByName(name));
     }
-    
-    
 }
