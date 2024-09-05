@@ -25,24 +25,6 @@
                 class="dropdown"
                 placeholder="Select Pick" />
         </div>
-        <div class="drop_wrap">
-            Ban Team 1
-            <Dropdown
-                class="dropdown"
-                placeholder="Select Ban" />
-            <Dropdown
-                class="dropdown"
-                placeholder="Select Ban" />
-            <Dropdown
-                class="dropdown"
-                placeholder="Select Ban" />
-            <Dropdown
-                class="dropdown"
-                placeholder="Select Ban" />
-            <Dropdown
-                class="dropdown"
-                placeholder="Select Ban" />
-        </div>
     </div>
     <div class="settings_area">
         <div class="heading_wrap"> Score</div>
@@ -55,6 +37,45 @@
             />
         </div>
         <div class="heading_wrap"> MVP</div>
+        <div class="horizontal_align">
+            <div class="drop_wrap">
+                Ban Team 2
+                <Dropdown
+                    class="dropdown"
+                    placeholder="Select Ban" />
+                <Dropdown
+                    class="dropdown"
+                    placeholder="Select Ban" />
+                <Dropdown
+                    class="dropdown"
+                    placeholder="Select Ban" />
+                <Dropdown
+                    class="dropdown"
+                    placeholder="Select Ban" />
+                <Dropdown
+                    class="dropdown"
+                    placeholder="Select Ban" />
+            </div>
+        <div class="drop_wrap">
+            <div>
+                Ban Team 1
+                <Dropdown
+                    class="dropdown"
+                    placeholder="Select Ban" />
+                <Dropdown
+                    class="dropdown"
+                    placeholder="Select Ban" />
+                <Dropdown
+                    class="dropdown"
+                    placeholder="Select Ban" />
+                <Dropdown
+                    class="dropdown"
+                    placeholder="Select Ban" />
+                <Dropdown
+                    class="dropdown"
+                    placeholder="Select Ban" />
+            </div>
+        </div>
         <InputNumber
                 class="input"
             />
@@ -87,24 +108,6 @@
             <Dropdown
                 class="dropdown"
                 placeholder="Select Pick" />
-        </div>
-        <div class="drop_wrap">
-            Ban Team 2
-            <Dropdown
-                class="dropdown"
-                placeholder="Select Ban" />
-            <Dropdown
-                class="dropdown"
-                placeholder="Select Ban" />
-            <Dropdown
-                class="dropdown"
-                placeholder="Select Ban" />
-            <Dropdown
-                class="dropdown"
-                placeholder="Select Ban" />
-            <Dropdown
-                class="dropdown"
-                placeholder="Select Ban" />
         </div>
     </div>
 </div>
@@ -189,7 +192,7 @@
     border: none;
     color: #1A1A1A;
     font-size: 32px;
-    
+
     font-weight: 600;
 }
 </style>
