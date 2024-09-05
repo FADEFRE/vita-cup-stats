@@ -1,12 +1,15 @@
 <template>
 <div class="settings_body">
+
     <div class="settings_area">
+
         <div class="drop_wrap">
             <Dropdown 
                 class="dropdown"
                 placeholder="Select Team"
             />
         </div>
+
         <div class="drop_wrap">
             Pick Team 1
             <Dropdown
@@ -26,8 +29,11 @@
                 placeholder="Select Pick" />
         </div>
     </div>
+
     <div class="settings_area">
+
         <div class="heading_wrap"> Score</div>
+
         <div class="horizontal_align">
             <InputNumber 
                 class="input"
@@ -36,7 +42,9 @@
                 class="input"
             />
         </div>
+
         <div class="heading_wrap"> MVP</div>
+
         <div class="horizontal_align">
             <div class="drop_wrap">
                 Ban Team 2
@@ -56,8 +64,7 @@
                     class="dropdown"
                     placeholder="Select Ban" />
             </div>
-        <div class="drop_wrap">
-            <div>
+            <div class="drop_wrap">
                 Ban Team 1
                 <Dropdown
                     class="dropdown"
@@ -76,6 +83,7 @@
                     placeholder="Select Ban" />
             </div>
         </div>
+
         <InputNumber
                 class="input"
             />
@@ -84,13 +92,16 @@
             label="Submit"
         />
     </div>
+
     <div class="settings_area">
+
         <div class="drop_wrap">
             <Dropdown 
                 class="dropdown"
                 placeholder="Select Team"
             />
         </div>
+        
         <div class="drop_wrap">
             Pick Team 2
             <Dropdown
