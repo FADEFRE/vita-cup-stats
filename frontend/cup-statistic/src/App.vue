@@ -9,6 +9,7 @@ import Settings from './components/Settings.vue'
       <Settings class="full-width"/>
       <Settings class="full-width"/>
     </div>
+    <Settings class="full-width"/>
   </div>
 </template>
 

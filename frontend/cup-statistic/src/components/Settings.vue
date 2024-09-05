@@ -1,5 +1,5 @@
 <template>
- <div class="settings_body">
+<div class="settings_body">
     <div class="settings_area">
         <div class="drop_wrap">
             <Dropdown 
@@ -8,6 +8,7 @@
             />
         </div>
         <div class="drop_wrap">
+            Pick Team 1
             <Dropdown
                 class="dropdown"
                 placeholder="Select Pick"  />
@@ -25,6 +26,7 @@
                 placeholder="Select Pick" />
         </div>
         <div class="drop_wrap">
+            Ban Team 1
             <Dropdown
                 class="dropdown"
                 placeholder="Select Ban" />
@@ -69,6 +71,7 @@
             />
         </div>
         <div class="drop_wrap">
+            Pick Team 2
             <Dropdown
                 class="dropdown"
                 placeholder="Select Pick"  />
@@ -86,6 +89,7 @@
                 placeholder="Select Pick" />
         </div>
         <div class="drop_wrap">
+            Ban Team 2
             <Dropdown
                 class="dropdown"
                 placeholder="Select Ban" />
@@ -103,7 +107,7 @@
                 placeholder="Select Ban" />
         </div>
     </div>
- </div>
+</div>
 </template>
 
 <style>
