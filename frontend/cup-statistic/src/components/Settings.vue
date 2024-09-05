@@ -4,6 +4,7 @@
     <div class="settings_area">
 
         <div class="drop_wrap">
+            Team 1
             <Dropdown 
                 class="dropdown"
                 placeholder="Select Team"
@@ -11,22 +12,22 @@
         </div>
 
         <div class="drop_wrap">
-            Pick Team 1
+            Ban Team 1
             <Dropdown
                 class="dropdown"
-                placeholder="Select Pick"  />
+                placeholder="Select Ban" />
             <Dropdown
                 class="dropdown"
-                placeholder="Select Pick"  />
+                placeholder="Select Ban" />
             <Dropdown
                 class="dropdown"
-                placeholder="Select Pick" />
+                placeholder="Select Ban" />
             <Dropdown
                 class="dropdown"
-                placeholder="Select Pick" />
+                placeholder="Select Ban" />
             <Dropdown
                 class="dropdown"
-                placeholder="Select Pick" />
+                placeholder="Select Ban" />
         </div>
     </div>
 
@@ -50,40 +51,40 @@
 
         <div class="horizontal_align">
             <div class="drop_wrap">
-                Ban Team 2
+                Pick Team 1
                 <Dropdown
                     class="dropdown"
-                    placeholder="Select Ban" />
+                    placeholder="Select Pick"  />
                 <Dropdown
                     class="dropdown"
-                    placeholder="Select Ban" />
+                    placeholder="Select Pick"  />
                 <Dropdown
                     class="dropdown"
-                    placeholder="Select Ban" />
+                    placeholder="Select Pick" />
                 <Dropdown
                     class="dropdown"
-                    placeholder="Select Ban" />
+                    placeholder="Select Pick" />
                 <Dropdown
                     class="dropdown"
-                    placeholder="Select Ban" />
+                    placeholder="Select Pick" />
             </div>
             <div class="drop_wrap">
-                Ban Team 1
+                Pick Team 2
                 <Dropdown
                     class="dropdown"
-                    placeholder="Select Ban" />
+                    placeholder="Select Pick"  />
                 <Dropdown
                     class="dropdown"
-                    placeholder="Select Ban" />
+                    placeholder="Select Pick"  />
                 <Dropdown
                     class="dropdown"
-                    placeholder="Select Ban" />
+                    placeholder="Select Pick" />
                 <Dropdown
                     class="dropdown"
-                    placeholder="Select Ban" />
+                    placeholder="Select Pick" />
                 <Dropdown
                     class="dropdown"
-                    placeholder="Select Ban" />
+                    placeholder="Select Pick" />
             </div>
         </div>
 
@@ -96,6 +97,7 @@
     <div class="settings_area">
 
         <div class="drop_wrap">
+            Team 2
             <Dropdown 
                 class="dropdown"
                 placeholder="Select Team"
@@ -103,22 +105,22 @@
         </div>
         
         <div class="drop_wrap">
-            Pick Team 2
+            Ban Team 2
             <Dropdown
                 class="dropdown"
-                placeholder="Select Pick"  />
+                placeholder="Select Ban" />
             <Dropdown
                 class="dropdown"
-                placeholder="Select Pick"  />
+                placeholder="Select Ban" />
             <Dropdown
                 class="dropdown"
-                placeholder="Select Pick" />
+                placeholder="Select Ban" />
             <Dropdown
                 class="dropdown"
-                placeholder="Select Pick" />
+                placeholder="Select Ban" />
             <Dropdown
                 class="dropdown"
-                placeholder="Select Pick" />
+                placeholder="Select Ban" />
         </div>
     </div>
 </div>
