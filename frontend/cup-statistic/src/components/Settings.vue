@@ -44,6 +44,9 @@
         </div>
 
         <div class="heading_wrap"> MVP</div>
+        <InputNumber
+                class="input"
+            />
 
         <div class="horizontal_align">
             <div class="drop_wrap">
@@ -84,9 +87,6 @@
             </div>
         </div>
 
-        <InputNumber
-                class="input"
-            />
         <Button 
             class="button"
             label="Submit"
@@ -151,6 +151,7 @@
     align-self: stretch;
     border-radius: 16px;
     background: #1A1A1A;
+    width: 100%;
 }
 
 .dropdown {
