@@ -19,13 +19,21 @@ public class Champion {
 
     private Float averagePickBan;
 
+    private int totalPickBan;
+
     private Float averagePick;
 
-    private Long wins;
+    private int totalPick;
 
-    private Long loss;
+    private int wins;
+
+    private int loss;
 
     public Champion(String name) {
         this.name = name;
+        this.totalPick = 0;
+        this.totalPickBan = 0;
+        this.wins = 0;
+        this.loss = 0;
     }
 }

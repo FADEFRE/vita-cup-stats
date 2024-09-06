@@ -44,13 +44,21 @@ public class MatchService {
         match.setMvp(mvpName);
         playerService.addMvp(mvpName);
 
-        match.setTeam_1_pick_champion_names(convertIdsListToNamesList(submitDataDTO.getTeamOne_Pick_ids()));
-        match.setTeam_1_ban_champion_names(convertIdsListToNamesList(submitDataDTO.getTeamOne_Ban_ids()));
-        match.setTeam_2_pick_champion_names(convertIdsListToNamesList(submitDataDTO.getTeamTwo_Pick_ids()));
-        match.setTeam_2_ban_champion_names(convertIdsListToNamesList(submitDataDTO.getTeamTwo_Ban_ids()));
+        List<String> team_1_picks = convertIdsListToNamesList(submitDataDTO.getTeamOne_Pick_ids());
+        List<String> team_1_bans = convertIdsListToNamesList(submitDataDTO.getTeamOne_Ban_ids());
+        List<String> team_2_picks = convertIdsListToNamesList(submitDataDTO.getTeamTwo_Pick_ids());
+        List<String> team_2_bans = convertIdsListToNamesList(submitDataDTO.getTeamTwo_Ban_ids());
+        match.setTeam_1_pick_champion_names(team_1_picks);
+        match.setTeam_1_ban_champion_names(team_1_bans);
+        match.setTeam_2_pick_champion_names(team_2_picks);
+        match.setTeam_2_ban_champion_names(team_2_bans);
 
+        teamService.updateData(team_1, team_1_picks, team_1_bans, team_2_bans);
+        teamService.updateData(team_2, team_2_picks, team_2_bans, team_1_bans);
 
         matchRepository.save(match);
+
+        championService.updateData(matchRepository.count(), team_1_picks, team_1_bans, submitDataDTO.getTeamOne_Score(), team_2_picks, team_2_bans, submitDataDTO.getTeamTwo_Score());
         return "saved";
     }
     
