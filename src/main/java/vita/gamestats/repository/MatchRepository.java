@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import vita.gamestats.model.Match;
 
 @Repository
-public interface MatchRepositroy extends JpaRepository<Match, Long>{
+public interface MatchRepository extends JpaRepository<Match, Long>{
     
 }

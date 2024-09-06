@@ -22,4 +22,13 @@ public class ChampionService {
         return championRepository.findByName(name).orElseThrow();
     }
 
+    public Champion getChampionById(Long id) {
+        return championRepository.findById(id).orElseThrow();
+    }
+
+    public String getChampionNameById(Long id) {
+        Champion champion = championRepository.findById(id).orElseThrow();
+        return champion.getName();
+    }
+
 }

@@ -1,11 +1,8 @@
 package vita.gamestats.model;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -33,9 +30,6 @@ public class Team {
     private String[] highestBannedAgainst_Champions_names;
 
     private Float[] highestBannedAgainst_Percentage;
-
-    @OneToMany(mappedBy = "team")
-    private List<Player> players;
 
     public Team(String discordName, String name) {
         this.discordName = discordName;

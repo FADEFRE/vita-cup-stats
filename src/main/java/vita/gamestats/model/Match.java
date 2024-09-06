@@ -1,5 +1,6 @@
 package vita.gamestats.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -9,7 +10,6 @@ import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Entity
-
 @Data
 public class Match {
     
@@ -17,11 +17,9 @@ public class Match {
     @GeneratedValue
     private Long id;
 
+    private LocalDate date;
+
     private String name;
-
-    private StreamEnum stream;
-
-    private Boolean isActive;
 
     @ManyToOne
     private Team team_1;
@@ -36,4 +34,7 @@ public class Match {
     private List<String> team_2_pick_champion_names;
 
     private List<String> team_2_ban_champion_names;
+
+    private String mvp;
+
 }

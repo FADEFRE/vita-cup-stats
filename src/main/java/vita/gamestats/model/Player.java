@@ -3,12 +3,12 @@ package vita.gamestats.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Player {
     
     @Id
@@ -19,11 +19,11 @@ public class Player {
 
     private String inGameName;
 
-    @ManyToOne
-    @JoinColumn(name = "Team_ID")
-    private Team team;
+    private int mvpCount;
 
-    private String[] highestPick_Champions_name;
+    public Player(String name) {
+        this.name = name;
+        this.mvpCount = 0;
+    }
 
-    private Float[] highestPick_Percentage;
 }
