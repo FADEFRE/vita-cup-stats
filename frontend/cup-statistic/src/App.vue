@@ -1,15 +1,14 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
 import Settings from './components/Settings.vue'
 </script>
 
 <template>
   <div class="page_body">
     <div class="align">
-      <Settings class="full-width"/>
-      <Settings class="full-width"/>
+      <Settings class="full-width" :streamSlotId="'A'" :streamSlotName="'A-Stream'"/>
+      <Settings class="full-width" :streamSlotId="'B'" :streamSlotName="'B-Stream'"/>
     </div>
-    <Settings class="full-width"/>
+    <Settings class="full-width" :streamSlotId="'N'" :streamSlotName="'Nix-Stream'"/>
   </div>
 </template>
 
