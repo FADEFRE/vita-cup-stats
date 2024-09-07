@@ -6,9 +6,11 @@ import Settings from './components/Settings.vue'
   <div class="page_body">
     <div class="align">
       <Settings class="full-width" :streamSlotId="'A'" :streamSlotName="'A-Stream'"/>
-      <Settings class="full-width" :streamSlotId="'B'" :streamSlotName="'B-Stream'"/>
+      
     </div>
+    <Settings class="full-width" :streamSlotId="'B'" :streamSlotName="'B-Stream'"/>
     <Settings class="full-width" :streamSlotId="'N'" :streamSlotName="'Nix-Stream'"/>
+    <Settings class="full-width" :streamSlotId="'M'" :streamSlotName="'Nix2-Stream'"/>
   </div>
 </template>
 
