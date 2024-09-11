@@ -30,5 +30,39 @@ public class ChampionController {
         return ResponseEntity.ok(championService.getChampionByName(name));
     }
     
-    
+    @GetMapping("/picked")
+    public ResponseEntity<Champion[]> getMostPickedChampions() {
+        return ResponseEntity.ok(championService.getMostPickedChampions(5));
+    }
+
+    @GetMapping("/banned")
+    public ResponseEntity<Champion[]> getMostBannedChampions() {
+        return ResponseEntity.ok(championService.getMostBannedChampions(5));
+    }
+
+    @GetMapping("/presence")
+    public ResponseEntity<Champion[]> getHighestPresenceChampions() {
+        return ResponseEntity.ok(championService.getHighestPresenceChampions(5));
+    }
+
+    @GetMapping("/winrate")
+    public ResponseEntity<Champion[]> getHighestWinrateChampions() {
+        return ResponseEntity.ok(championService.getHighestWinrateChampionsWithoutFlawless(5));
+    }
+
+    @GetMapping("/winrate/flawless")
+    public ResponseEntity<Champion[]> getHighestWinrateChampionsFlawless() {
+        return ResponseEntity.ok(championService.getHighestWinrateChampionsOnlyFlawless());
+    }
+
+    @GetMapping("/lossrate")
+    public ResponseEntity<Champion[]> getLowestWinrateChampions() {
+        return ResponseEntity.ok(championService.getLowestWinrateChampionsWithoutFlawless(5));
+    }
+
+    @GetMapping("/lossrate/flawless")
+    public ResponseEntity<Champion[]> getLowestWinrateChampionsFlawless() {
+        return ResponseEntity.ok(championService.getLowestWinrateChampionsOnlyFlawless());
+    }
+
 }

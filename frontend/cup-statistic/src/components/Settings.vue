@@ -118,6 +118,12 @@ async function sendData() {
 
     if (allCorrect) {
         postMatch(teamOneId, teamOneScore, teamOne_Picks, teamOne_Bans, teamTwoId, teamTwoScore, teamTwo_Picks, teamTwo_Bans, mvpValue)
+        
+        setTimeout(() => {
+            resetAllInputs()
+            
+        }, 1000);
+        
         return
     }
     else {
@@ -146,33 +152,33 @@ function convertRefId(ref) {
 }
 
 function resetAllInputs() {
-    const mvp = undefined
+    mvp = undefined
 
-    const teamOne = undefined
-    const teamOne_Score = undefined
-    const teamOne_Pick_1 = undefined
-    const teamOne_Pick_2 = undefined
-    const teamOne_Pick_3 = undefined
-    const teamOne_Pick_4 = undefined
-    const teamOne_Pick_5 = undefined
-    const teamOne_Ban_1 = undefined
-    const teamOne_Ban_2 = undefined
-    const teamOne_Ban_3 = undefined
-    const teamOne_Ban_4 = undefined
-    const teamOne_Ban_5 = undefined
+    teamOne = undefined
+    teamOne_Score = undefined
+    teamOne_Pick_1 = undefined
+    teamOne_Pick_2 = undefined
+    teamOne_Pick_3 = undefined
+    teamOne_Pick_4 = undefined
+    teamOne_Pick_5 = undefined
+    teamOne_Ban_1 = undefined
+    teamOne_Ban_2 = undefined
+    teamOne_Ban_3 = undefined
+    teamOne_Ban_4 = undefined
+    teamOne_Ban_5 = undefined
 
-    const teamTwo = undefined
-    const teamTwo_Score = undefined
-    const teamTwo_Pick_1 = undefined
-    const teamTwo_Pick_2 = undefined
-    const teamTwo_Pick_3 = undefined
-    const teamTwo_Pick_4 = undefined
-    const teamTwo_Pick_5 = undefined
-    const teamTwo_Ban_1 = undefined
-    const teamTwo_Ban_2 = undefined
-    const teamTwo_Ban_3 = undefined
-    const teamTwo_Ban_4 = undefined
-    const teamTwo_Ban_5 = undefined
+    teamTwo = undefined
+    teamTwo_Score = undefined
+    teamTwo_Pick_1 = undefined
+    teamTwo_Pick_2 = undefined
+    teamTwo_Pick_3 = undefined
+    teamTwo_Pick_4 = undefined
+    teamTwo_Pick_5 = undefined
+    teamTwo_Ban_1 = undefined
+    teamTwo_Ban_2 = undefined
+    teamTwo_Ban_3 = undefined
+    teamTwo_Ban_4 = undefined
+    teamTwo_Ban_5 = undefined
 }
 </script>
 

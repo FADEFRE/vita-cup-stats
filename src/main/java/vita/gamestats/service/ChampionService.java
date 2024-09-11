@@ -41,8 +41,6 @@ public class ChampionService {
         return champion.getName();
     }
 
-
-
     public void updateData(
         long numberOfTotalGames, 
         List<String> team_1_picks, 
@@ -96,4 +94,277 @@ public class ChampionService {
             championRepository.save(champ);
         }
     }
+
+    public Champion[] getMostPickedChampions(int numberOf) {
+        Champion[] returnChampions = new Champion[numberOf];
+        List<Champion> allChampions = getAllChampions();
+        for (Champion champion : allChampions) {
+            if (champion.getTotalPick() == 0) { continue; }
+            if (returnChampions[0] == null) { returnChampions[0] = champion; continue;}
+
+            for (int i = 0; i < returnChampions.length; i++) {
+                if (returnChampions[i].getTotalPick() > champion.getTotalPick()) {
+                    if (i+1 > returnChampions.length-1) { break; }
+
+                    if (returnChampions[i+1] == null) { returnChampions[i+1] = champion; break;}
+                
+                    if (returnChampions[i+1].getTotalPick() < champion.getTotalPick()) {
+                        for (int j = returnChampions.length-1; j > i; j--) {
+                            returnChampions[j] = returnChampions[j-1];
+                        }
+                        returnChampions[i+1] = champion;
+                        break;
+                    }
+
+                } 
+                else {
+                    for (int j = returnChampions.length-1; j > i; j--) {
+                        returnChampions[j] = returnChampions[j-1];
+                    }
+                    returnChampions[i] = champion;
+                    break;
+                }
+            }
+        }
+
+        return returnChampions;
+    }
+
+    public Champion[] getMostBannedChampions(int numberOf) {
+        Champion[] returnChampions = new Champion[numberOf];
+        List<Champion> allChampions = getAllChampions();
+        for (Champion champion : allChampions) {
+            if (champion.getTotalPickBan() == 0) { continue; }
+            if (returnChampions[0] == null) { returnChampions[0] = champion; continue;}
+
+            for (int i = 0; i < returnChampions.length; i++) {
+                int returnChampBan = returnChampions[i].getTotalPickBan() - returnChampions[i].getTotalPick();
+                int champBan = champion.getTotalPickBan() - champion.getTotalPick();
+                if (returnChampBan > champBan) {
+                    if (i+1 > returnChampions.length-1) { break; }
+
+                    if (returnChampions[i+1] == null) { returnChampions[i+1] = champion; break;}
+                
+                    int returnChampBan_1 = returnChampions[i+1].getTotalPickBan() - returnChampions[i+1].getTotalPick();
+                    if (returnChampBan_1 < champBan) {
+                        for (int j = returnChampions.length-1; j > i; j--) {
+                            returnChampions[j] = returnChampions[j-1];
+                        }
+                        returnChampions[i+1] = champion;
+                        break;
+                    }
+
+                } 
+                else {
+                    for (int j = returnChampions.length-1; j > i; j--) {
+                        returnChampions[j] = returnChampions[j-1];
+                    }
+                    returnChampions[i] = champion;
+                    break;
+                }
+            }
+        }
+
+        return returnChampions;
+    }
+
+    public Champion[] getHighestPresenceChampions(int numberOf) {
+        Champion[] returnChampions = new Champion[numberOf];
+        List<Champion> allChampions = getAllChampions();
+        for (Champion champion : allChampions) {
+            if (champion.getTotalPickBan() == 0) { continue; }
+            if (returnChampions[0] == null) { returnChampions[0] = champion; continue;}
+
+            for (int i = 0; i < returnChampions.length; i++) {
+                if (returnChampions[i].getTotalPickBan() > champion.getTotalPickBan()) {
+                    if (i+1 > returnChampions.length-1) { break; }
+
+                    if (returnChampions[i+1] == null) { returnChampions[i+1] = champion; break;}
+                
+                    if (returnChampions[i+1].getTotalPickBan() < champion.getTotalPickBan()) {
+                        for (int j = returnChampions.length-1; j > i; j--) {
+                            returnChampions[j] = returnChampions[j-1];
+                        }
+                        returnChampions[i+1] = champion;
+                        break;
+                    }
+
+                } 
+                else {
+                    for (int j = returnChampions.length-1; j > i; j--) {
+                        returnChampions[j] = returnChampions[j-1];
+                    }
+                    returnChampions[i] = champion;
+                    break;
+                }
+            }
+        }
+
+        return returnChampions;
+    }
+
+    public Champion[] getHighestWinrateChampionsWithoutFlawless(int numberOf) {
+        Champion[] returnChampions = new Champion[numberOf];
+        List<Champion> allChampions = getAllChampions();
+        for (Champion champion : allChampions) {
+            if (champion.getWins() == 0 || champion.getTotalPick() == 1 || champion.getLoss() == 0) { continue; }
+            if (returnChampions[0] == null) { returnChampions[0] = champion; continue;}
+
+            for (int i = 0; i < returnChampions.length; i++) {
+                if (returnChampions[i].getWins()*100/returnChampions[i].getTotalPick() > champion.getWins()*100/champion.getTotalPick()) {
+                    if (i+1 > returnChampions.length-1) { break; }
+
+                    if (returnChampions[i+1] == null) { returnChampions[i+1] = champion; break;}
+                
+                    if (returnChampions[i+1].getWins()*100/returnChampions[i+1].getTotalPick() < champion.getWins()*100/champion.getTotalPick()) {
+                        for (int j = returnChampions.length-1; j > i; j--) {
+                            returnChampions[j] = returnChampions[j-1];
+                        }
+                        returnChampions[i+1] = champion;
+                        break;
+                    }
+
+                } 
+                else {
+                    for (int j = returnChampions.length-1; j > i; j--) {
+                        returnChampions[j] = returnChampions[j-1];
+                    }
+                    returnChampions[i] = champion;
+                    break;
+                }
+            }
+        }
+
+        return returnChampions;
+    }
+
+    public Champion[] getHighestWinrateChampionsOnlyFlawless() {
+        List<Champion> allChampions = getAllChampions();
+        Champion[] firstArray = new Champion[allChampions.size()];
+        for (Champion champion : allChampions) {
+            if (champion.getWins() <= 1 || champion.getTotalPick() == 1 || champion.getLoss() > 0) { continue; }
+            if (firstArray[0] == null) { firstArray[0] = champion; continue;}
+
+            for (int i = 0; i < firstArray.length; i++) {
+                if (firstArray[i].getWins() > champion.getWins()) {
+                    if (i+1 > firstArray.length-1) { break; }
+
+                    if (firstArray[i+1] == null) { firstArray[i+1] = champion; break;}
+                
+                    if (firstArray[i+1].getWins() < champion.getWins()) {
+                        for (int j = firstArray.length-1; j > i; j--) {
+                            firstArray[j] = firstArray[j-1];
+                        }
+                        firstArray[i+1] = champion;
+                        break;
+                    }
+
+                } 
+                else {
+                    for (int j = firstArray.length-1; j > i; j--) {
+                        firstArray[j] = firstArray[j-1];
+                    }
+                    firstArray[i] = champion;
+                    break;
+                }
+            }
+        }
+        int lengthCounter = 0;
+        for (int i = 0; i < firstArray.length; i++) {
+            if (firstArray[i] == null) {
+                break;
+            }
+            else {
+                lengthCounter++;
+            }
+        }
+        Champion[] returnChampions = new Champion[lengthCounter];
+        for (int i = 0; i < returnChampions.length; i++) {
+            returnChampions[i] = firstArray[i];
+        }
+        return returnChampions;
+    }
+
+    public Champion[] getLowestWinrateChampionsWithoutFlawless(int numberOf) {
+        Champion[] returnChampions = new Champion[numberOf];
+        List<Champion> allChampions = getAllChampions();
+        for (Champion champion : allChampions) {
+            if (champion.getLoss() == 0 || champion.getTotalPick() == 1 || champion.getWins() == 0) { continue; }
+            if (returnChampions[0] == null) { returnChampions[0] = champion; continue;}
+
+            for (int i = 0; i < returnChampions.length; i++) {
+                if (returnChampions[i].getLoss()*100/returnChampions[i].getTotalPick() > champion.getLoss()*100/champion.getTotalPick()) {
+                    if (i+1 > returnChampions.length-1) { break; }
+
+                    if (returnChampions[i+1] == null) { returnChampions[i+1] = champion; break;}
+                
+                    if (returnChampions[i+1].getLoss()*100/returnChampions[i+1].getTotalPick() < champion.getLoss()*100/champion.getTotalPick()) {
+                        for (int j = returnChampions.length-1; j > i; j--) {
+                            returnChampions[j] = returnChampions[j-1];
+                        }
+                        returnChampions[i+1] = champion;
+                        break;
+                    }
+
+                } 
+                else {
+                    for (int j = returnChampions.length-1; j > i; j--) {
+                        returnChampions[j] = returnChampions[j-1];
+                    }
+                    returnChampions[i] = champion;
+                    break;
+                }
+            }
+        }
+
+        return returnChampions;
+    }
+
+    public Champion[] getLowestWinrateChampionsOnlyFlawless() {
+        List<Champion> allChampions = getAllChampions();
+        Champion[] firstArray = new Champion[allChampions.size()];
+        for (Champion champion : allChampions) {
+            if (champion.getLoss() <= 1 || champion.getTotalPick() == 1 || champion.getWins() > 0) { continue; }
+            if (firstArray[0] == null) { firstArray[0] = champion; continue;}
+
+            for (int i = 0; i < firstArray.length; i++) {
+                if (firstArray[i].getLoss() > champion.getLoss()) {
+                    if (i+1 > firstArray.length-1) { break; }
+
+                    if (firstArray[i+1] == null) { firstArray[i+1] = champion; break;}
+                
+                    if (firstArray[i+1].getLoss() < champion.getLoss()) {
+                        for (int j = firstArray.length-1; j > i; j--) {
+                            firstArray[j] = firstArray[j-1];
+                        }
+                        firstArray[i+1] = champion;
+                        break;
+                    }
+
+                } 
+                else {
+                    for (int j = firstArray.length-1; j > i; j--) {
+                        firstArray[j] = firstArray[j-1];
+                    }
+                    firstArray[i] = champion;
+                    break;
+                }
+            }
+        }
+        int lengthCounter = 0;
+        for (int i = 0; i < firstArray.length; i++) {
+            if (firstArray[i] == null) {
+                break;
+            }
+            else {
+                lengthCounter++;
+            }
+        }
+        Champion[] returnChampions = new Champion[lengthCounter];
+        for (int i = 0; i < returnChampions.length; i++) {
+            returnChampions[i] = firstArray[i];
+        }
+        return returnChampions;
+    }
+
 }

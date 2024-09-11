@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SubmitDataDTO {
+public class MatchDTO {
     private Long teamOne_id;
     private Long teamTwo_id;
     private String mvp;
