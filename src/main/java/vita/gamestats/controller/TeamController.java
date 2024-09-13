@@ -29,4 +29,9 @@ public class TeamController {
     public ResponseEntity<Team> getTeamByName(@PathVariable String name) {
         return ResponseEntity.ok(teamService.getTeamByName(name));
     }
+
+    @GetMapping("/{name}/id")
+    public ResponseEntity<Long> getTeamIdByName(@PathVariable String name) {
+        return ResponseEntity.ok(teamService.getTeamIdByName(name));
+    }
 }

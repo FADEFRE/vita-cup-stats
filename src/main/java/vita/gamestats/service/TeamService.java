@@ -36,6 +36,11 @@ public class TeamService {
         return team.getName();
     }
 
+    public Long getTeamIdByName(String name) {
+        Team team = getTeamByName(name);
+        return team.getId();
+    }
+
     public void updateData(Team team, List<String> team_picks, List<String> team_bans, List<String> enemy_bans) {
         team.setNumberOfGames(team.getNumberOfGames()+1);
 
@@ -114,6 +119,7 @@ public class TeamService {
     }
 
 
+
     private String[] getSortedMap(Map<String, Integer> frequencyMap) {
         Map<String, Integer> newMap = new HashMap<>(frequencyMap);
         for (String key : frequencyMap.keySet()) {
@@ -145,4 +151,6 @@ public class TeamService {
         }
         return percentagFloats;
     }
+
+
 }

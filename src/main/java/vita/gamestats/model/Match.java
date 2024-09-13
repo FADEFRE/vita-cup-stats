@@ -21,6 +21,8 @@ public class Match {
 
     private String name;
 
+    private Long winner;
+
     @ManyToOne
     private Team team_1;
 
