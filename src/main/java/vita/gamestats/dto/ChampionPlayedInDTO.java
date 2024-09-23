@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 public class ChampionPlayedInDTO {
     private String teamOne;
     private String teamTwo;
+    private int pickedBannedBy;
     private String winner;
 }

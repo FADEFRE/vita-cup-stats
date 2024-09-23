@@ -424,6 +424,13 @@ public class ChampionService {
             ChampionPlayedInDTO dto = new ChampionPlayedInDTO();
             dto.setTeamOne(match.getTeam_1().getName());
             dto.setTeamTwo(match.getTeam_2().getName());
+
+            if (match.getTeam_1_pick_champion_names().contains(champion.getName())) {
+                dto.setPickedBannedBy(1);
+            } else {
+                dto.setPickedBannedBy(2);
+            }
+
             if (match.getWinner() == 1) {
                 dto.setWinner(match.getTeam_1().getName());
             } else {
