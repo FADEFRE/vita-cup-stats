@@ -8,16 +8,27 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import vita.gamestats.dto.TeamStatsDTO;
 import vita.gamestats.model.Team;
 import vita.gamestats.repository.TeamRepository;
 
 @Service
 public class TeamService {
 
+    private final int lengthOfArray = 5;
+
     @Autowired
     private TeamRepository teamRepository;
+
+    private ChampionService championService;
+
+    public TeamService(@Lazy ChampionService championService) {
+        this.championService = championService;
+    }
+
 
     public List<Team> getAllTeams() {
         return teamRepository.findAll();
@@ -47,7 +58,7 @@ public class TeamService {
         String[] highestPickedArray = team.getHighestPick_Champions_names();
         if (highestPickedArray == null || highestPickedArray.length == 0) {
             team.setAllPicked(team_picks);
-            String[] newArray = new String[5];
+            String[] newArray = new String[lengthOfArray];
             for (int i = 0; i < team_picks.size(); i++) {
                 newArray[i] = team_picks.get(i);
             }
@@ -71,7 +82,7 @@ public class TeamService {
         String[] highestBannedArray = team.getHighestBan_Champions_names();
         if (highestBannedArray == null || highestBannedArray.length == 0) {
             team.setAllBanned(team_bans);
-            String[] newArray = new String[5];
+            String[] newArray = new String[lengthOfArray];
             for (int i = 0; i < team_bans.size(); i++) {
                 newArray[i] = team_bans.get(i);
             }
@@ -95,7 +106,7 @@ public class TeamService {
         String[] highestBannedAgainstArray = team.getHighestBannedAgainst_Champions_names();
         if (highestBannedAgainstArray == null || highestBannedAgainstArray.length == 0) {
             team.setAllBannedAgainst(enemy_bans);
-            String[] newArray = new String[5];
+            String[] newArray = new String[lengthOfArray];
             for (int i = 0; i < enemy_bans.size(); i++) {
                 newArray[i] = enemy_bans.get(i);
             }
@@ -118,12 +129,24 @@ public class TeamService {
         teamRepository.save(team);
     }
 
-
+    public TeamStatsDTO getTeamStats(String teamName) {
+        Team team = getTeamByName(teamName);
+        TeamStatsDTO statsDTO = new TeamStatsDTO(team);
+        int length = statsDTO.getHighestPick_Champions_names().length;
+        Float[] winrates = new Float[length];
+        for (int i = 0; i < length; i++) {
+            String championName = statsDTO.getHighestPick_Champions_names()[i];
+            Float winrate = championService.getWinrateOfChampionOfTeam(championName, team.getId());
+            winrates[i] = winrate;
+        }
+        statsDTO.setHighestPick_Winrate(winrates);
+        return statsDTO;
+    }
 
     private String[] getSortedMap(Map<String, Integer> frequencyMap) {
         Map<String, Integer> newMap = new HashMap<>(frequencyMap);
         for (String key : frequencyMap.keySet()) {
-            if (newMap.size() <= 5) {
+            if (newMap.size() <= lengthOfArray) {
                 break;
             }
             newMap.remove(key);

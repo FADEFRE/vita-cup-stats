@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import vita.gamestats.dto.ChampionStatsDTO;
 import vita.gamestats.model.Champion;
 import vita.gamestats.service.ChampionService;
+
 
 
 @RestController
@@ -64,5 +66,26 @@ public class ChampionController {
     public ResponseEntity<Champion[]> getLowestWinrateChampionsFlawless() {
         return ResponseEntity.ok(championService.getLowestWinrateChampionsOnlyFlawless());
     }
+
+    @GetMapping("/{name}/matches/picked")
+    public ResponseEntity<ChampionStatsDTO> getMatchesPlayed(@PathVariable String name) {
+        return ResponseEntity.ok(championService.getChampionsMatches(name, "picked"));
+    }
+
+    @GetMapping("/{name}/matches/banned")
+    public ResponseEntity<ChampionStatsDTO> getMatchesBanned(@PathVariable String name) {
+        return ResponseEntity.ok(championService.getChampionsMatches(name, "banned"));
+    }
+
+    @GetMapping("/{name}/matches/won")
+    public ResponseEntity<ChampionStatsDTO> getMatchesWon(@PathVariable String name) {
+        return ResponseEntity.ok(championService.getChampionsMatches(name, "won"));
+    }
+
+    @GetMapping("/{name}/matches/lost")
+    public ResponseEntity<ChampionStatsDTO> getMatchesLost(@PathVariable String name) {
+        return ResponseEntity.ok(championService.getChampionsMatches(name, "lost"));
+    }
+    
 
 }

@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import vita.gamestats.dto.ChampionPlayedInDTO;
+import vita.gamestats.dto.ChampionStatsDTO;
 import vita.gamestats.model.Champion;
+import vita.gamestats.model.Match;
 import vita.gamestats.repository.ChampionRepository;
 
 @Service
@@ -14,6 +18,12 @@ public class ChampionService {
     
     @Autowired
     private ChampionRepository championRepository;
+
+    private MatchService matchService;
+
+    public ChampionService(@Lazy MatchService matchService) {
+        this.matchService = matchService;
+    }
 
     public List<Champion> getAllChampions() {
         return championRepository.findAll();
@@ -365,6 +375,87 @@ public class ChampionService {
             returnChampions[i] = firstArray[i];
         }
         return returnChampions;
+    }
+
+
+    public ChampionStatsDTO getChampionsMatches(String name, String option) {
+        ChampionStatsDTO championStatsDTO = new ChampionStatsDTO();
+        List<ChampionPlayedInDTO> list = new ArrayList<>();
+        List<Match> allMatches = matchService.getAllMatches();
+        List<Match> returnMatches = new ArrayList<>();
+
+        Champion champion = getChampionByName(name);
+        championStatsDTO.setChampion(champion);
+
+        for (Match match : allMatches) {
+            switch (option) {
+                case "picked":
+                    if (match.getTeam_1_pick_champion_names().contains(champion.getName()) || match.getTeam_2_pick_champion_names().contains(champion.getName())) {
+                        returnMatches.add(match);
+                    }
+                    break;
+                case "banned":
+                    if (match.getTeam_1_ban_champion_names().contains(champion.getName()) || match.getTeam_2_ban_champion_names().contains(champion.getName())) {
+                        returnMatches.add(match);
+                    }
+                    break;
+                case "won":
+                    if (
+                        (match.getTeam_1_pick_champion_names().contains(champion.getName()) && match.getWinner() == 1L ) || 
+                        (match.getTeam_2_pick_champion_names().contains(champion.getName()) && match.getWinner() == 2L ) 
+                        ) {
+                        returnMatches.add(match);
+                    }
+                    break;
+                case "lost":
+                    if (
+                        (match.getTeam_1_pick_champion_names().contains(champion.getName()) && match.getWinner() == 2L ) || 
+                        (match.getTeam_2_pick_champion_names().contains(champion.getName()) && match.getWinner() == 1L ) 
+                        ) {
+                        returnMatches.add(match);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        for (Match match : returnMatches) {
+            ChampionPlayedInDTO dto = new ChampionPlayedInDTO();
+            dto.setTeamOne(match.getTeam_1().getName());
+            dto.setTeamTwo(match.getTeam_2().getName());
+            if (match.getWinner() == 1) {
+                dto.setWinner(match.getTeam_1().getName());
+            } else {
+                dto.setWinner(match.getTeam_2().getName());
+            }
+            list.add(dto);
+        }
+
+        championStatsDTO.setMatches(list);
+        return championStatsDTO;
+    }
+
+    public Float getWinrateOfChampionOfTeam(String championName, Long teamId) {
+        List<Match> teamMatches = matchService.getAllMatchesFromSingleTeam(teamId);
+        List<Match> playedMatches = new ArrayList<>();
+        int wins = 0;
+        for (Match match : teamMatches) {
+            if (match.getTeam_1_pick_champion_names().contains(championName) || match.getTeam_2_pick_champion_names().contains(championName)) {
+                playedMatches.add(match);
+            }
+        }
+        for (Match match : playedMatches) {
+            if (match.getWinner() == 1L && match.getTeam_1_pick_champion_names().contains(championName)) {
+                wins++;
+            }
+            else if (match.getWinner() == 2L && match.getTeam_2_pick_champion_names().contains(championName)) {
+                wins++;
+            }
+        }
+
+        Float returnValue = ((float) wins / playedMatches.size())*100;
+        return returnValue;
     }
 
 }

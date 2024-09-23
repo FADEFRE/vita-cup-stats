@@ -11,4 +11,5 @@ import vita.gamestats.model.Champion;
 public class ChampionStatsDTO {
     private Champion champion;
     private List<ChampionMatchupStatsDTO> championMatchupStatsDTOs;
+    private List<ChampionPlayedInDTO> matches;
 }

@@ -32,6 +32,10 @@ public class MatchService {
         return matchRepository.count();
     }
 
+    public List<Match> getAllMatches() {
+        return matchRepository.findAll();
+    }
+
     public String saveMatch(MatchDTO submitDataDTO) {
         Match match = new Match();
 
@@ -48,10 +52,10 @@ public class MatchService {
         match.setMvp(mvpName);
         playerService.addMvp(mvpName);
 
-        if (submitDataDTO.getTeamOne_Score() > 1) {
+        if (submitDataDTO.getTeamOne_Score() == 1) {
             match.setWinner(1L);
         } 
-        if (submitDataDTO.getTeamTwo_Score() > 1) {
+        if (submitDataDTO.getTeamTwo_Score() == 1) {
             match.setWinner(2L);
         }
 
@@ -74,20 +78,26 @@ public class MatchService {
     }
     
     public List<Match> getAllMatchesFromTeams(Long team_one_id, Long team_two_id) {
-        List<Match> allMatches = matchRepository.findAll();
-        List<Match> allTeamOneMatches = new ArrayList<>();
+        List<Match> allTeamOneMatches = getAllMatchesFromSingleTeam(team_one_id);
         List<Match> allCombinedMatches = new ArrayList<>();
-        for (Match match : allMatches) {
-            if (match.getTeam_1().getId() == team_one_id || match.getTeam_2().getId() == team_one_id) {
-                allTeamOneMatches.add(match);
-            }
-        }
+
         for (Match match : allTeamOneMatches) {
             if (match.getTeam_1().getId() == team_two_id || match.getTeam_2().getId() == team_two_id) {
                 allCombinedMatches.add(match);
             }
         }
         return allCombinedMatches;
+    }
+
+    public List<Match> getAllMatchesFromSingleTeam(Long team_one_id) {
+        List<Match> allMatches = matchRepository.findAll();
+        List<Match> allTeamOneMatches = new ArrayList<>();
+        for (Match match : allMatches) {
+            if (match.getTeam_1().getId() == team_one_id || match.getTeam_2().getId() == team_one_id) {
+                allTeamOneMatches.add(match);
+            }
+        }
+        return allTeamOneMatches;
     }
 
     private List<String> convertIdsListToNamesList(List<Long> idList) {
