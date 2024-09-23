@@ -152,33 +152,33 @@ function convertRefId(ref) {
 }
 
 function resetAllInputs() {
-    mvp = undefined
+    mvp.value = undefined
 
-    teamOne = undefined
-    teamOne_Score = undefined
-    teamOne_Pick_1 = undefined
-    teamOne_Pick_2 = undefined
-    teamOne_Pick_3 = undefined
-    teamOne_Pick_4 = undefined
-    teamOne_Pick_5 = undefined
-    teamOne_Ban_1 = undefined
-    teamOne_Ban_2 = undefined
-    teamOne_Ban_3 = undefined
-    teamOne_Ban_4 = undefined
-    teamOne_Ban_5 = undefined
+    teamOne.value = undefined
+    teamOne_Score.value = undefined
+    teamOne_Pick_1.value = undefined
+    teamOne_Pick_2.value = undefined
+    teamOne_Pick_3.value = undefined
+    teamOne_Pick_4.value = undefined
+    teamOne_Pick_5.value = undefined
+    teamOne_Ban_1.value = undefined
+    teamOne_Ban_2.value = undefined
+    teamOne_Ban_3.value = undefined
+    teamOne_Ban_4.value = undefined
+    teamOne_Ban_5.value = undefined
 
-    teamTwo = undefined
-    teamTwo_Score = undefined
-    teamTwo_Pick_1 = undefined
-    teamTwo_Pick_2 = undefined
-    teamTwo_Pick_3 = undefined
-    teamTwo_Pick_4 = undefined
-    teamTwo_Pick_5 = undefined
-    teamTwo_Ban_1 = undefined
-    teamTwo_Ban_2 = undefined
-    teamTwo_Ban_3 = undefined
-    teamTwo_Ban_4 = undefined
-    teamTwo_Ban_5 = undefined
+    teamTwo.value = undefined
+    teamTwo_Score.value = undefined
+    teamTwo_Pick_1.value = undefined
+    teamTwo_Pick_2.value = undefined
+    teamTwo_Pick_3.value = undefined
+    teamTwo_Pick_4.value = undefined
+    teamTwo_Pick_5.value = undefined
+    teamTwo_Ban_1.value = undefined
+    teamTwo_Ban_2.value = undefined
+    teamTwo_Ban_3.value = undefined
+    teamTwo_Ban_4.value = undefined
+    teamTwo_Ban_5.value = undefined
 }
 </script>
 
