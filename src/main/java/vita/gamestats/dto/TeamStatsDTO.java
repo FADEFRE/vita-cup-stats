@@ -10,6 +10,8 @@ public class TeamStatsDTO {
     private String name;
     private String discordName;
     private int numberOfGames;
+    private int numberOfWins;
+    private int numberOfLoss;
     private String[] highestPick_Champions_names;
     private Float[] highestPick_Percentage;
     private Float[] highestPick_Winrate;

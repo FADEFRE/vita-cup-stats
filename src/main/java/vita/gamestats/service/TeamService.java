@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import vita.gamestats.dto.TeamStatsDTO;
+import vita.gamestats.model.Match;
 import vita.gamestats.model.Team;
 import vita.gamestats.repository.TeamRepository;
 
@@ -24,9 +25,11 @@ public class TeamService {
     private TeamRepository teamRepository;
 
     private ChampionService championService;
+    private MatchService matchService;
 
-    public TeamService(@Lazy ChampionService championService) {
+    public TeamService(@Lazy ChampionService championService, @Lazy MatchService matchService) {
         this.championService = championService;
+        this.matchService = matchService;
     }
 
 
@@ -132,6 +135,7 @@ public class TeamService {
     public TeamStatsDTO getTeamStats(String teamName) {
         Team team = getTeamByName(teamName);
         TeamStatsDTO statsDTO = new TeamStatsDTO(team);
+
         int length = statsDTO.getHighestPick_Champions_names().length;
         Float[] winrates = new Float[length];
         for (int i = 0; i < length; i++) {
@@ -140,6 +144,27 @@ public class TeamService {
             winrates[i] = winrate;
         }
         statsDTO.setHighestPick_Winrate(winrates);
+
+        List<Match> matches = matchService.getAllMatchesFromSingleTeam(team.getId());
+        int wins = 0;
+        int loss = 0;
+        for (Match match : matches) {
+            if (
+                (match.getTeam_1().getId().equals(team.getId()) && match.getWinner() == 1L) || 
+                (match.getTeam_2().getId().equals(team.getId()) && match.getWinner() == 2L)
+                ) {
+                wins++;
+            }
+            else if (
+                (match.getTeam_1().getId().equals(team.getId()) && match.getWinner() == 2L) || 
+                (match.getTeam_2().getId().equals(team.getId()) && match.getWinner() == 1L)
+                ) {
+                loss++;
+            }
+        }
+        statsDTO.setNumberOfWins(wins);
+        statsDTO.setNumberOfLoss(loss);
+
         return statsDTO;
     }
 
