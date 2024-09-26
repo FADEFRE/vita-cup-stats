@@ -1,7 +1,9 @@
 package vita.gamestats.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import vita.gamestats.dto.ChampionPlayedInDTO;
 import vita.gamestats.dto.ChampionStatsDTO;
+import vita.gamestats.dto.SocialChampBanDTO;
+import vita.gamestats.dto.SocialChampDTO;
 import vita.gamestats.model.Champion;
 import vita.gamestats.model.Match;
 import vita.gamestats.repository.ChampionRepository;
@@ -20,9 +24,10 @@ public class ChampionService {
     private ChampionRepository championRepository;
 
     private MatchService matchService;
-
-    public ChampionService(@Lazy MatchService matchService) {
+    private TeamService teamService;
+    public ChampionService(@Lazy MatchService matchService, @Lazy TeamService teamService) {
         this.matchService = matchService;
+        this.teamService = teamService;
     }
 
     public List<Champion> getAllChampions() {
@@ -104,6 +109,8 @@ public class ChampionService {
             championRepository.save(champ);
         }
     }
+
+
 
     public Champion[] getMostPickedChampions(int numberOf) {
         Champion[] returnChampions = new Champion[numberOf];
@@ -377,7 +384,6 @@ public class ChampionService {
         return returnChampions;
     }
 
-
     public ChampionStatsDTO getChampionsMatches(String name, String option) {
         ChampionStatsDTO championStatsDTO = new ChampionStatsDTO();
         List<ChampionPlayedInDTO> list = new ArrayList<>();
@@ -465,4 +471,263 @@ public class ChampionService {
         return returnValue;
     }
 
+    public List<SocialChampDTO> getAllChampSocialStats() {
+        List<Champion> allChamps = getAllChampions();
+        List<SocialChampDTO> returnList = new ArrayList<>();
+        for (Champion champion : allChamps) {
+            if (champion.getTotalPickBan() == 0) { continue; }
+                
+            SocialChampDTO dto = new SocialChampDTO();
+            dto.setName(champion.getName());
+            dto.setNumberOfPicks(champion.getTotalPick());
+            dto.setPickrate(((float)champion.getTotalPick()/matchService.getAllMatches().size())*100);
+            dto.setNumberOfWins(champion.getWins());
+            dto.setWinrate(((float)champion.getWins()/champion.getTotalPick())*100);
+            dto.setNumberOfLosses(champion.getLoss());
+            dto.setLossrate(((float)champion.getLoss()/champion.getTotalPick())*100);
+            dto.setNumberOfBans(champion.getTotalPickBan()-champion.getTotalPick());
+            dto.setBanrate(((float)(champion.getTotalPickBan()-champion.getTotalPick())/matchService.getAllMatches().size())*100);
+            dto.setNumberOfPresences(champion.getTotalPickBan());
+            dto.setPresenceRate(((float)champion.getTotalPickBan()/matchService.getAllMatches().size())*100);
+            returnList.add(dto);
+        }
+        return returnList;
+    }
+
+    public SocialChampBanDTO[] getSocialChampBanStats(int numberOf) {
+        List<Champion> allChamps = getAllChampions();
+        Champion[] bannedChamps = getMostBannedChampions(allChamps.size());
+        SocialChampBanDTO[] returnChamps = new SocialChampBanDTO[bannedChamps.length];
+        int acutalLength = 0;
+        for (int i = 0; i < bannedChamps.length; i++) {
+            if (bannedChamps[i]== null) { continue; }
+            if ((bannedChamps[i].getTotalPickBan() - bannedChamps[i].getTotalPick()) <= 1) { continue; }
+
+            acutalLength++;
+            SocialChampBanDTO dto = new SocialChampBanDTO();
+            dto.setName(bannedChamps[i].getName());
+            dto.setNumberOfBans(bannedChamps[i].getTotalPickBan()-bannedChamps[i].getTotalPick());
+            dto.setBanrate(((float)dto.getNumberOfBans()/matchService.getAllMatches().size())*100);
+            returnChamps[i] = dto;
+        }
+        SocialChampBanDTO[] fixedReturnChamps = new SocialChampBanDTO[acutalLength];
+        for (int i = 0; i < acutalLength; i++) {
+            fixedReturnChamps[i] = returnChamps[i];
+        }
+        return fixedReturnChamps;
+    }
+
+    public Champion[] getSocialHighestWinrateChamps(int numberOf) {
+        List<Champion> allChamps = getAllChampions();
+        Champion[] returnChamps = getHighestWinrateChampionsWithoutFlawless(allChamps.size());
+        int acutalLength = 0;
+        for (int i = 0; i < returnChamps.length; i++) {
+            if (returnChamps[i] == null) { continue; }
+            if (returnChamps[i].getTotalPickBan() <= 1 || returnChamps[i].getTotalPick() <= 1) { continue; }
+
+            acutalLength++;
+        }
+        Champion[] fixedReturnChamps = new Champion[acutalLength];
+        for (int i = 0; i < acutalLength; i++) {
+            fixedReturnChamps[i] = returnChamps[i];
+        }
+
+        Champion[] sortedChamps = sortChampionsByWinrate(fixedReturnChamps);
+
+        Champion[] correctLengthChamps = new Champion[numberOf];
+        for (int i = 0; i < numberOf; i++) {
+            correctLengthChamps[i] = sortedChamps[i];
+        }
+        return correctLengthChamps;
+    }
+
+    public Champion[] getSocialLowestWinrateChamps(int numberOf) {
+        List<Champion> allChamps = getAllChampions();
+        Champion[] returnChamps = getLowestWinrateChampionsWithoutFlawless(allChamps.size());
+        int acutalLength = 0;
+        for (int i = 0; i < returnChamps.length; i++) {
+            if (returnChamps[i] == null) { continue; }
+            if (returnChamps[i].getTotalPickBan() <= 1 || returnChamps[i].getTotalPick() <= 1) { continue; }
+
+            acutalLength++;
+        }
+        Champion[] fixedReturnChamps = new Champion[acutalLength];
+        for (int i = 0; i < acutalLength; i++) {
+            fixedReturnChamps[i] = returnChamps[i];
+        }
+
+        Champion[] sortedChamps = sortChampionsByLowestWinrate(fixedReturnChamps);
+
+        Champion[] correctLengthChamps = new Champion[numberOf];
+        for (int i = 0; i < numberOf; i++) {
+            correctLengthChamps[i] = sortedChamps[i];
+        }
+        return correctLengthChamps;
+    }
+
+
+    public SocialChampDTO[] getMostBannedChampionsOfTeam(String teamName) {
+        Set<Champion> allBannedChamps = new HashSet<>();
+        List<Match> allMatchesOfTeam = matchService.getAllMatchesFromSingleTeam(teamService.getTeamIdByName(teamName));
+        for (Match match : allMatchesOfTeam) {
+            if (match.getTeam_1().getName().equals(teamName)) {
+                for (String name : match.getTeam_1_ban_champion_names()) {
+                    allBannedChamps.add(getChampionByName(name));
+                }
+            }
+            else {
+                for (String name : match.getTeam_2_ban_champion_names()) {
+                    allBannedChamps.add(getChampionByName(name));
+                }
+            }
+        }
+
+        SocialChampDTO[] returnArray = new SocialChampDTO[allBannedChamps.size()];
+        List<SocialChampDTO> allChampions = new ArrayList<>();
+        for (Champion bannedChampion : allBannedChamps) {
+            SocialChampDTO dto = new SocialChampDTO();
+            int timesBanned = 0;
+            List<ChampionPlayedInDTO> matchDTO = getChampionsMatches(bannedChampion.getName(), "banned").getMatches();
+            for (ChampionPlayedInDTO match : matchDTO) {
+                if ((match.getTeamOne().equals(teamName) && match.getPickedBannedBy() == 1) || (match.getTeamTwo().equals(teamName) && match.getPickedBannedBy() == 2)) {
+                    timesBanned++;
+                }
+            }
+            dto.setNumberOfBans(timesBanned);
+            dto.setBanrate(((float) timesBanned / allMatchesOfTeam.size())*100);
+            dto.setName(bannedChampion.getName());
+            allChampions.add(dto);
+        }
+
+        for (SocialChampDTO champion : allChampions) {
+            if (returnArray[0] == null) { returnArray[0] = champion; continue;}
+
+            for (int i = 0; i < returnArray.length; i++) {
+                int returnChampBan = returnArray[i].getNumberOfBans();
+                int champBan = champion.getNumberOfBans();
+                if (returnChampBan > champBan) {
+                    if (i+1 > returnArray.length-1) { break; }
+
+                    if (returnArray[i+1] == null) { returnArray[i+1] = champion; break;}
+                
+                    int returnChampBan_1 = returnArray[i+1].getNumberOfBans();
+                    if (returnChampBan_1 < champBan) {
+                        for (int j = returnArray.length-1; j > i; j--) {
+                            returnArray[j] = returnArray[j-1];
+                        }
+                        returnArray[i+1] = champion;
+                        break;
+                    }
+
+                } 
+                else {
+                    for (int j = returnArray.length-1; j > i; j--) {
+                        returnArray[j] = returnArray[j-1];
+                    }
+                    returnArray[i] = champion;
+                    break;
+                }
+            }
+        }
+
+        return returnArray;
+    }
+
+
+
+    private Champion[] sortChampionsByWinrate(Champion[] champions) {
+        Champion temp;
+        for (int i = 0; i < champions.length; i++) {
+            temp = champions[i];
+            int biggest = i;
+            int j = champions.length-1;
+            float winrate1 = (float)champions[i].getWins()*100/champions[i].getTotalPick();
+            boolean compareStarted = false;
+            while (j > i) {
+                if (!compareStarted) {
+                    if (i+1 < champions.length) {
+                        float winrate2 = (float)champions[i+1].getWins()*100/champions[i+1].getTotalPick();
+                        if (winrate1 > winrate2) {
+                            break;
+                        }
+                    }
+                    if (((j+i) / 2) > i) {
+                        float winrate2Half = (float)champions[((j+i) / 2)].getWins()*100/champions[((j+i) / 2)].getTotalPick();
+                        if (winrate1 > winrate2Half) {
+                            j = ((j+i) / 2);
+                            continue;
+                        }
+                    }
+                    float winratej = (float)champions[j].getWins()*100/champions[j].getTotalPick();
+                    if (winrate1 > winratej) { 
+                        j--;
+                        continue; 
+                    }
+                }
+
+                compareStarted = true;
+
+                if (champions[i].getWins() < champions[j].getWins() && (biggest == 0 || champions[biggest].getWins() < champions[j].getWins())) { 
+                    biggest = j;
+                }
+
+                j--;
+            }
+
+            if (biggest > i) {
+                champions[i] = champions[biggest];
+                champions[biggest] = temp;
+            }
+
+        }
+        return champions;
+    }
+
+    private Champion[] sortChampionsByLowestWinrate(Champion[] champions) {
+        Champion temp;
+        for (int i = 0; i < champions.length; i++) {
+            temp = champions[i];
+            int lowest = i;
+            int j = champions.length-1;
+            float winrate1 = (float)champions[i].getWins()*100/champions[i].getTotalPick();
+            boolean compareStarted = false;
+            while (j > i) {
+                if (!compareStarted) {
+                    if (i+1 < champions.length) {
+                        float winrate2 = (float)champions[i+1].getWins()*100/champions[i+1].getTotalPick();
+                        if (winrate1 < winrate2) {
+                            break;
+                        }
+                    }
+                    if (((j+i) / 2) > i) {
+                        float winrate2Half = (float)champions[((j+i) / 2)].getWins()*100/champions[((j+i) / 2)].getTotalPick();
+                        if (winrate1 < winrate2Half) {
+                            j = ((j+i) / 2);
+                            continue;
+                        }
+                    }
+                    float winratej = (float)champions[j].getWins()*100/champions[j].getTotalPick();
+                    if (winrate1 < winratej) { 
+                        j--;
+                        continue; 
+                    }
+                }
+
+                compareStarted = true;
+
+                if (champions[i].getLoss() < champions[j].getLoss() && (lowest == 0 || champions[lowest].getLoss() < champions[j].getLoss())) { 
+                    lowest = j;
+                }
+
+                j--;
+            }
+
+            if (lowest > i) {
+                champions[i] = champions[lowest];
+                champions[lowest] = temp;
+            }
+
+        }
+        return champions;
+    }
 }

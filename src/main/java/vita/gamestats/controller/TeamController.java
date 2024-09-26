@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import vita.gamestats.dto.TeamMatchesDTO;
 import vita.gamestats.dto.TeamStatsDTO;
 import vita.gamestats.model.Team;
 import vita.gamestats.service.TeamService;
@@ -30,6 +31,12 @@ public class TeamController {
     public ResponseEntity<TeamStatsDTO> getTeamByName(@PathVariable String name) {
         return ResponseEntity.ok(teamService.getTeamStats(name));
     }
+
+    @GetMapping("/{name}/matches")
+    public ResponseEntity<List<TeamMatchesDTO>> getAllMatchesFromSingleTeam(@PathVariable String name) {
+        return ResponseEntity.ok(teamService.getAllMatchesFromSingleTeam(name));
+    }
+
 
     @GetMapping("/{name}/id")
     public ResponseEntity<Long> getTeamIdByName(@PathVariable String name) {

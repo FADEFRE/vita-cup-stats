@@ -1,6 +1,8 @@
 package vita.gamestats.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import vita.gamestats.dto.SocialTeamDTO;
+import vita.gamestats.dto.TeamMatchesDTO;
 import vita.gamestats.dto.TeamStatsDTO;
 import vita.gamestats.model.Match;
 import vita.gamestats.model.Team;
@@ -53,6 +57,24 @@ public class TeamService {
     public Long getTeamIdByName(String name) {
         Team team = getTeamByName(name);
         return team.getId();
+    }
+
+    public List<TeamMatchesDTO> getAllMatchesFromSingleTeam(String name) {
+        List<Match> matches = matchService.getAllMatchesFromSingleTeam(getTeamByName(name).getId());
+        List<TeamMatchesDTO> dtos = new ArrayList<>();
+        for (Match match : matches) {
+            TeamMatchesDTO dto = new TeamMatchesDTO();
+            dto.setName(match.getName());
+            dto.setWinner(match.getWinner());
+            dto.setTeam_one(match.getTeam_1().getName());
+            dto.setTeam_two(match.getTeam_2().getName());
+            dto.setTeam_1_pick_champion_names(match.getTeam_1_pick_champion_names());
+            dto.setTeam_1_ban_champion_names(match.getTeam_1_ban_champion_names());
+            dto.setTeam_2_pick_champion_names(match.getTeam_2_pick_champion_names());
+            dto.setTeam_2_ban_champion_names(match.getTeam_2_ban_champion_names());
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     public void updateData(Team team, List<String> team_picks, List<String> team_bans, List<String> enemy_bans) {
@@ -102,7 +124,7 @@ public class TeamService {
             String[] onlyFiveArray = getSortedMap(sorted);
             team.setHighestBan_Champions_names(onlyFiveArray);
 
-            team.setHighestBan_Percentage(getPercentageArray(onlyFiveArray, sorted, team.getNumberOfGames()));
+            team.setHighestBan_Percentage(getPercentageArray(onlyFiveArray, sorted, team.getNumberOfGames()));//TODO THIS IS WRONG
         }
 
 
@@ -200,5 +222,29 @@ public class TeamService {
         return percentagFloats;
     }
 
+
+    public List<SocialTeamDTO> getAllTeamSocialStats() {
+        List<Team> allTeams = getAllTeams();
+        List<SocialTeamDTO> dtos = new ArrayList<>();
+        for (Team team : allTeams) {
+            SocialTeamDTO socialTeamDTO = new SocialTeamDTO();
+            socialTeamDTO.setName(team.getName());
+            socialTeamDTO.setNumberOfGames(team.getNumberOfGames());
+            socialTeamDTO.setNumberOfWins(matchService.getNumberOfWins(team));
+            socialTeamDTO.setNumberOfLoss(matchService.getNumberOfLoss(team));
+            socialTeamDTO.setWinrate((((float) socialTeamDTO.getNumberOfWins()) / (float) socialTeamDTO.getNumberOfGames())*100);
+            if (team.getAllPicked() != null) {
+                List<String> allPicked = team.getAllPicked();
+                Set<String> uniquePicks = new HashSet<>(allPicked);
+                uniquePicks.remove("No Ban");
+                socialTeamDTO.setNumberOfAllPicks(uniquePicks.size());
+            }
+            else {
+                socialTeamDTO.setNumberOfAllPicks(0);
+            }
+            dtos.add(socialTeamDTO);
+        }
+        return dtos;
+    }
 
 }

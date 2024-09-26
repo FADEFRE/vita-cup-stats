@@ -28,6 +28,11 @@ public class MatchController {
     public ResponseEntity<List<Match>> getAllMatchesFromTeams(@PathVariable Long team_one_id, @PathVariable Long team_two_id) {
         return ResponseEntity.ok(matchService.getAllMatchesFromTeams(team_one_id, team_two_id));
     }
+
+    @GetMapping("/{team_one_id}")
+    public ResponseEntity<List<Match>> getAllMatchesFromSingleTeam(@PathVariable Long team_one_id) {
+        return ResponseEntity.ok(matchService.getAllMatchesFromSingleTeam(team_one_id));
+    }
     
     @GetMapping("/total")
     public ResponseEntity<Long> getTotalNumberOfMatches() {

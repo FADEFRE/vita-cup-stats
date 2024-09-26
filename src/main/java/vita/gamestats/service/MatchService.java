@@ -100,6 +100,28 @@ public class MatchService {
         return allTeamOneMatches;
     }
 
+    public int getNumberOfWins(Team team) {
+        List<Match> allMatches = getAllMatchesFromSingleTeam(team.getId());
+        int numberOfWins = 0;
+        for (Match match : allMatches) {
+            if ((match.getWinner() == 1L && match.getTeam_1().getId() == team.getId()) || (match.getWinner() == 2L && match.getTeam_2().getId() == team.getId())) {
+                numberOfWins++;
+            }
+        }
+        return numberOfWins;
+    }
+
+    public int getNumberOfLoss(Team team) {
+        List<Match> allMatches = getAllMatchesFromSingleTeam(team.getId());
+        int numberOfLoss = 0;
+        for (Match match : allMatches) {
+            if ((match.getWinner() == 1L && match.getTeam_2().getId() == team.getId()) || (match.getWinner() == 2L && match.getTeam_1().getId() == team.getId())) {
+                numberOfLoss++;
+            }
+        }
+        return numberOfLoss;
+    }
+
     private List<String> convertIdsListToNamesList(List<Long> idList) {
         List<String> stringList = new ArrayList<>();
 
